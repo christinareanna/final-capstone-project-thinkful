@@ -1,0 +1,10 @@
+/* .form-group {
+    max-width: 50%;
+    align-items: center;
+} */
+
+.reservation-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}

@@ -50,6 +50,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "dotenv": "^11.0.0",
-    "heroku": "^7.59.2"
+    "heroku": "^7.59.2",
+    "react-bootstrap-table": "^4.3.1"
   }
 }

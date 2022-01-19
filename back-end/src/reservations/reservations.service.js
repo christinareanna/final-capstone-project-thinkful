@@ -11,10 +11,10 @@ function list() {
 
 function listByDate(date) {
     return knex('reservations as r')
-    .select('r.*')
-    .where({ reservation_date: date })
-    .whereNot({ status: 'finished' })
-    .orderBy('reservation_time')
+        .select('r.*')
+        .where({ reservation_date: date })
+        .whereNot({ status: 'finished' })
+        .orderBy('reservation_time')
 }
 
 function read(reservation_id) {
@@ -24,8 +24,14 @@ function read(reservation_id) {
         .first();
 }
 
+// function create(reservation) {
+//     return knex(tableName).insert(reservation).returning("*");
+// }
+
 function create(reservation) {
-    return knex(tableName).insert(reservation).returning("*");
+    return knex(tableName)
+        .insert(reservation, "*")
+        .then((res) => res[0]);
 }
 
 function update(updatedReservation) {

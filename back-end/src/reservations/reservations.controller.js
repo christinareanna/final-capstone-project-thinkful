@@ -1,5 +1,6 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+const hasProperties = require("../errors/hasProperties");
 
 /**
  * 
@@ -19,40 +20,15 @@ async function list(req, res) {
   }
 }
 
-function validateData(req, res, next) {
-  if (!req.body.data) {
-    return next({
-      status: 400,
-      message: 'There is literally no data'
-    })
-  }
-}
-
-// join together maybe?
-
-function hasFirstName(req, res, next) {
-  const name = req.body.data.first_name;
-  if (name) {
-    return next();
-  }
-  next({
-    status: 400,
-    message: "first_name property is required.",
-  })
-}
-
-
-function hasLastName(req, res, next) {
-  const name = req.body.data.last_name;
-  if (name) {
-    return next();
-  }
-  next({
-    status: 400,
-    message: "last_name property is required.",
-  })
-}
-
+// function validateData(req, res, next) {
+//   if (!req.body.data) {
+//     return next({
+//       status: 400,
+//       message: 'There is literally no data'
+//     })
+//   }
+//   next();
+// }
 
 
 
@@ -81,31 +57,19 @@ function people(req, res, next) {
   next();
 }
 
-// something like this lmao 
-
-// function hasReservationTime(req, res, next) {
-//   const time = req.body.data.reservation_time;
-//   // const date = req.body.data.reservation_date;
-//   if (time && typeof time === 'string') {
-//     return next();
-//   }
-//   next({
-//     status: 400,
-//     message: 'Valid reservation time is required.'
-//   })
-// }
 
 
 
 async function create(req, res) {
   const data = await service.create(req.body.data);
-  res.status(201).json({ data })
+  res.status(201).json({ data });
 }
 
 
+
 function read(req, res) {
-  const { reservation } = res.locals;
-  res.json({ data: reservation });
+  const data = res.locals.reservation;
+  res.json(data);
 }
 
 
@@ -145,6 +109,8 @@ function hasRequiredFields(req, res, next) {
   next();
 }
 
+const hasRequiredProperties = hasProperties("first_name", "last_name");
+
 
 async function update(req, res) {
   const { reservation_id } = res.locals.reservation;
@@ -154,6 +120,63 @@ async function update(req, res) {
   };
   const updated = await service.update(updatedReservation);
   res.json({ data: updated[0] })
+}
+
+function hasMobileNumber(req, res, next) {
+  const number = req.body.data.mobile_number;
+  if (number && typeof number === 'string') {
+    return next();
+  }
+  next({
+    status: 400,
+    message: "valid mobile_number property required.",
+  })
+}
+
+function hasReservationTime(req, res, next) {
+    // let time = req.body.data.reservation_time;
+  //   // let validTime = time.split(":")
+  //   if(!time) {
+  //     return next({
+  //       status: 400,
+  //       message: `reservation_time`
+  //     })
+  //   }
+  //   next();
+  // }
+  let time = req.body.data.reservation_time;
+  
+  const validTimeFormat = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/;
+
+  if (!time) {
+    next({
+      status: 400,
+      message: `reservation_time cannot be empty. Please select a time.`,
+    });
+  }
+
+  if (!time.match(validTimeFormat)) {
+    return next({
+      status: 400,
+      message: `The reservation_time must be a valid time in the format '12:30`,
+    });
+  }
+  next();
+}
+
+
+function hasReservationDate(req, res, next) {
+  let date = req.body.data.reservation_date;
+  const isDate = (value) => {
+    return (new Date(value) !== "invalid Date" && !isNaN(new Date(value)))
+  }
+  if (date && typeof date === 'string' && isDate(date)) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: "valid reservation_date property required.",
+  })
 }
 
 async function updateStatus(req, res) {
@@ -166,45 +189,58 @@ async function updateStatus(req, res) {
   res.json({ data: updated[0] })
 }
 
-function hasValidStatus(req, res, next) {
-  const { status } = req.body.data;
-  const validStatus = ['booked', 'seated', 'finished', 'cancelled'];
-  if (!validStatus.includes(status)) {
-    return next({
-      status: 400,
-      message: `Status ${status} is not valid.`,
-    });
-  }
-  next();
-}
+// function hasValidStatus(req, res, next) {
+//   const { status } = req.body.data;
+//   const validStatus = ['booked', 'seated', 'finished', 'cancelled'];
+//   if (!validStatus.includes(status)) {
+//     return next({
+//       status: 400,
+//       message: `Status ${status} is not valid.`,
+//     });
+//   }
+//   next();
+// }
 
+// function hasValidStatus(req, res, next) {
+//   const { status } = req.body.data;
+//   const validStatus = ['booked', 'seated', 'finished', 'cancelled'];
+//   if (!validStatus.includes(status)) {
+//     return next({
+//       status: 400,
+//       message: `Status ${status} is not valid.`,
+//     });
+//   }
+//   next();
+// }
 
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
     hasRequiredFields,
-    hasFirstName,
-    hasLastName,
+    hasRequiredProperties,
+    hasMobileNumber,
     people,
-    validateData,
-    // hasReservationTime,
-    hasValidStatus,
+    // validateData,
+    hasReservationTime,
+    hasReservationDate,
+    // hasValidStatus,
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
   update: [
     hasRequiredFields,
-    hasValidStatus,
-    hasFirstName,
-    hasLastName,
-    // hasReservationTime,
+    hasRequiredProperties,
+    // hasValidStatus,
+    hasReservationTime,
+    hasReservationDate,
+    hasMobileNumber,
     people,
     asyncErrorBoundary(update),
   ],
   updateStatus: [
     hasRequiredFields,
     asyncErrorBoundary(reservationExists),
-    hasValidStatus,
+    // hasValidStatus,
     asyncErrorBoundary(updateStatus),
   ],
 };
