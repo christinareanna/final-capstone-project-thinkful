@@ -269,6 +269,7 @@ module.exports = {
     people,
     asyncErrorBoundary(update),
   ],
+  
   updateStatus: [
     hasRequiredFields,
     asyncErrorBoundary(reservationExists),
