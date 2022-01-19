@@ -5,7 +5,7 @@ import { formatAsTime } from "../utils/date-time"
 import ErrorAlert from "../layout/ErrorAlert";
 
 
-export default function NewReservation() {
+export default function NewReservation({date}) {
     const history = useHistory();
     // const { reservation_id } = useParams();
 
@@ -13,19 +13,26 @@ export default function NewReservation() {
 
 
     const [errors, setErrors] = useState(null);
+    // const [reservation, setReservation] = useState({
+    //     first_name: "",
+    //     last_name: "",
+    //     mobile_number: "",
+    //     reservation_date: "",
+    //     reservation_time: formatAsTime(new Date().toTimeString()),
+    //     people: 0,
+    // });
+
     const [reservation, setReservation] = useState({
         first_name: "",
         last_name: "",
         mobile_number: "",
-        reservation_date: "",
-        reservation_time: formatAsTime(new Date().toTimeString()),
-        people: 0,
-    });
+        reservation_date: date,
+        reservation_time: "",
+        people: "1",
+    })
 
 
 
-
-    // TODO Create Submit Handler √
     function handleSubmit(event) {
         event.preventDefault();
         createReservation({
