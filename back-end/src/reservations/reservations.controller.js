@@ -20,6 +20,20 @@ async function list(req, res) {
   }
 }
 
+function noPastReservations(req, res, next) {
+  const { reservation_date, reservation_time } = req.body.data;
+  const now = Date.now();
+  const currentReservation = new Date(`${reservation_date} ${reservation_time}`).valueOf();
+
+  if (currentReservation > now) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: "Reservation must be in future.",
+  })
+}
+
 // function validateData(req, res, next) {
 //   if (!req.body.data) {
 //     return next({
@@ -133,19 +147,20 @@ function hasMobileNumber(req, res, next) {
   })
 }
 
+// let time = req.body.data.reservation_time;
+//   // let validTime = time.split(":")
+//   if(!time) {
+//     return next({
+//       status: 400,
+//       message: `reservation_time`
+//     })
+//   }
+//   next();
+// }
+
 function hasReservationTime(req, res, next) {
-    // let time = req.body.data.reservation_time;
-  //   // let validTime = time.split(":")
-  //   if(!time) {
-  //     return next({
-  //       status: 400,
-  //       message: `reservation_time`
-  //     })
-  //   }
-  //   next();
-  // }
   let time = req.body.data.reservation_time;
-  
+
   const validTimeFormat = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/;
 
   if (!time) {
@@ -213,6 +228,19 @@ async function updateStatus(req, res) {
 //   next();
 // }
 
+
+function noTuesday(req, res, next) {
+  const date = req.body.data.reservation_date;
+  const weekday = new Date(date).getUTCDay();
+  if (weekday !== 2) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: "Restaurant is closed on Tuesdays.",
+  })
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
@@ -220,6 +248,8 @@ module.exports = {
     hasRequiredProperties,
     hasMobileNumber,
     people,
+    noTuesday,
+    noPastReservations,
     // validateData,
     hasReservationTime,
     hasReservationDate,
@@ -230,6 +260,8 @@ module.exports = {
   update: [
     hasRequiredFields,
     hasRequiredProperties,
+    noTuesday,
+    noPastReservations,
     // hasValidStatus,
     hasReservationTime,
     hasReservationDate,

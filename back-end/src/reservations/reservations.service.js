@@ -34,6 +34,45 @@ function create(reservation) {
         .then((res) => res[0]);
 }
 
+
+// function updateStatus(updatedReservation) {
+//     return knex('reservations')
+//         .select('*')
+//         .where({ reservation_id: updatedReservation.reservation_id })
+//         .update({ status: updatedReservation.status })
+//         .returning('*');
+// }
+
+async function updateReservation(reservation) {
+    const {
+        reservation_id,
+        first_name,
+        last_name,
+        mobile_number,
+        reservation_date,
+        reservation_time,
+        people,
+    } = reservation;
+    return knex('reservations')
+        .where({ reservation_id })
+        .update({
+            first_name: first_name,
+            last_name: last_name,
+            mobile_number: mobile_number,
+            reservation_date: reservation_date,
+            reservation_time: reservation_time,
+            people: people,
+        }, [
+            'first_name',
+            'last_name',
+            'mobile_number',
+            'people',
+            'reservation_date',
+            'reservation_time',
+        ])
+
+}
+
 function update(updatedReservation) {
     return knex('reservations')
         .select('*')
@@ -41,20 +80,12 @@ function update(updatedReservation) {
         .update(updatedReservation, '*');
 }
 
-function updateStatus(updatedReservation) {
-    return knex('reservations')
-        .select('*')
-        .where({ reservation_id: updatedReservation.reservation_id })
-        .update({ status: updatedReservation.status })
-        .returning('*');
-}
-
-
 module.exports = {
     list,
     listByDate,
     read,
     create,
+    updateReservation,
     update,
-    updateStatus,
+    // updateStatus,
 }
