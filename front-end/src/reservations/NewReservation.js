@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { createReservation, getReservation, updateReservation } from "../utils/api";
-import { formatAsTime } from "../utils/date-time"
+// import { formatAsTime } from "../utils/date-time"
 import ErrorAlert from "../layout/ErrorAlert";
 
 
