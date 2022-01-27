@@ -8,19 +8,6 @@ function Table({ tables }) {
   const history = useHistory();
   // const [error, setError] = useState(null);
 
-
-  // async function resetAndLoadTables() {
-  //   const abortController = new AbortController();
-  //   try {
-  //     const response = await clearTable(currentTable.table_id, abortController.signal);
-  //     const tableToSet = response.find((table) => table.table_id === currentTable.table_id);
-  //     setCurrentTable({ ...tableToSet })
-  //     listTables()
-  //     return tableToSet;
-  //   } catch (error) {
-  //     setError(error);
-  //   }
-  // }
   const handleClear = (table_id) => {
     if (
       window.confirm(

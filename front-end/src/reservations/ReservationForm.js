@@ -97,12 +97,12 @@
 import React from 'react'
 import { useHistory } from "react-router-dom"
 import ErrorAlert from '../layout/ErrorAlert'
-function ReservationForm({ handleSubmission, handleChange, handleNumberChange, form, error }) {
+function ReservationForm({ handleSubmit, handleChange, handleNumberChange, form, error }) {
     const history = useHistory()
 
     
     return (
-        <form onSubmit={handleSubmission}>
+        <form onSubmit={handleSubmit}>
             <ErrorAlert error={error} />
             <div className="mb-3">
                 <label htmlFor="formGroupExampleInput" className="form-label"  >First Name</label>

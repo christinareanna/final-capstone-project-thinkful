@@ -61,16 +61,6 @@ export default function EditReservation() {
 
 
 
-    // const handleChange = (event) => {
-    //     setForm({
-    //         ...form,
-    //         [event.target.name]:
-    //             event.target.name === "people" ? Number(event.target.value) : event.target.value,
-    //     });
-    // };
-
-
-
     return (
         <div>
             <ReservationForm handleSubmission={handleSubmission} handleChange={handleChange} error={error} handleNumberChange={handleNumberChange} form={form} />

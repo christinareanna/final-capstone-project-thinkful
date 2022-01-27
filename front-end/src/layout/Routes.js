@@ -19,23 +19,10 @@ import Search from "../reservations/Search";
  * @returns {JSX.Element}
  */
 
-// const query = useQuery();
-// const date = query.get("date") ? query.get("date") : today();
 
 function Routes() {
   const date = useQuery().get("date");
-  // const query = useQuery();
-  // const [date, setDate] = useState(query.get("date") || today());
-  // const url = useRouteMatch();
 
-  // function loadDate() {
-  //   const newDate = query.get('date');
-  //   if (newDate) {
-  //     setDate(newDate);
-  //   }
-  // }
-
-  // useEffect(loadDate, [url, query]);
 
   return (
     <Switch>
@@ -46,12 +33,12 @@ function Routes() {
         <Redirect to={"/dashboard"} />
       </Route>
       <Route exact path="/dashboard">
-        <Dashboard date={date||today()} />
+        <Dashboard date={date || today()} />
       </Route>
-      <Route exact path="/reservations/new">
+      <Route path="/reservations/new">
         <NewReservation />
       </Route>
-      <Route exact path="/reservations/:reservation_id/seat">
+      <Route path="/reservations/:reservation_id/seat">
         <SeatReservation />
       </Route>
       <Route exact path="/reservations/:reservation_id/edit">
