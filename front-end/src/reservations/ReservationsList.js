@@ -1,19 +1,17 @@
-import React from "react";
-import Reservation from "./Reservation";
+// import React from "react";
+// import Reservation from "./Reservation";
 
-const ReservationsList = ({ reservations }) => {
-    return (
-        <div>
-            <div className="reservations-container">
-                {reservations.map((reservation) => (
-                    <Reservation
-                        key={reservation.reservation_id}
-                        reservation={reservation}
-                    />
-                ))}
-            </div>
-        </div>
-    );
-};
+// const ReservationsList = ({ reservations }) => {
+//     return (
+//         <div className="reservations-container">
+//             {reservations.map((reservation) => (
+//                 <Reservation
+//                     key={reservation.reservation_id}
+//                     reservation={reservation}
+//                 />
+//             ))}
+//         </div>
+//     );
+// };
 
-export default ReservationsList;
+// export default ReservationsList;

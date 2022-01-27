@@ -39,7 +39,7 @@ function Menu() {
               <span className="oi oi-plus" />
               &nbsp;New Reservation
             </Link>
-          </li>
+          </li> 
           <li className="nav-item">
             <Link className="nav-link" to="/tables/new">
               <span className="oi oi-layers" />

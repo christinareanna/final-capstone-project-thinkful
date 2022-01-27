@@ -1,49 +1,82 @@
 import React, { useState } from "react";
 import { createTable } from "../utils/api";
 import { useHistory } from "react-router-dom";
+import ErrorAlert from "../layout/ErrorAlert";
 
-
-function createTable() {
-
-    const [table, setTable] = useState({
-        "table_name": "",
-        "capacity": "",
-    });
-
+export default function NewTable() {
+    const [error, setError] = useState(null);
     const history = useHistory();
 
+    const initialFormState = {
+        table_name: "",
+        capacity: "",
+    };
+    const [form, setForm] = useState({ ...initialFormState });
 
-    function handleChange(event) {
-        setTable({
-            ...table,
-            [event.target.name]: event.target.value,
-        })
+
+
+    // function goHome() {
+    //     history.push('/')
+    // }
+
+    // function handleSubmit(event) {
+    //     event.preventDefault();
+    //     createTable({
+    //             ...tableData,
+    //             capacity: Number(tableData.capacity),
+    //         })
+    //             .then(() => {
+    //                 goHome()
+    //             })
+    //         .catch(setError);
+    //     }
+
+
+    // function handleSubmit(e) {
+    //     e.preventDefault();
+    //     const abortController = new AbortController();
+    //     createTable(form, abortController.signal)
+    //         .then(() => history.push("/"))
+    //         .catch(setError)
+    //         return () => abortController.abort()
+    // };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const AC = new AbortController()
+        createTable(form, AC.signal)
+            .then(() => history.push("/"))
+            .catch(setError)
+        return () => AC.abort();
     }
 
-    function goHome() {
-        history.push('/')
-    }
 
-    function goBack() {
-        history.goBack()
-    }
 
-    async function submitHandler(event) {
-        event.preventDefault()
-        createTable(table)
-            .then(() => {
-                goHome()
-            })
-            .catch((error) => {
-                console.log(error)
-            })
 
-    }
+    const handleChange = (event) => {
+        setForm({
+            ...form,
+            [event.target.id]: event.target.value,
+        });
+    };
+
+
+    const handleNumber = (event) => {
+        setForm({
+            ...form,
+            [event.target.id]: Number(event.target.value),
+        });
+    };
+
+
+
 
     return (
         <main>
+            <h1>Create A Table</h1>
+            <ErrorAlert error={error} />
             <div>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <label htmlFor='table_name'>
                         Table Name
                     </label>
@@ -52,34 +85,34 @@ function createTable() {
                         id="table_name"
                         type="text"
                         name="table_name"
-                        value={table.table_name}
+                        value={form.table_name}
                         placeholder='Table Name'
                         onChange={handleChange}
+                        required
                     />
-                </form>
-                <form>
                     <label htmlFor='capacity'>
                         Capacity
                     </label>
-                    <br />
                     <input
                         id="capacity"
-                        type="text"
+                        type="number"
                         name="capacity"
-                        value={table.capacity}
+                        value={form.capacity}
                         placeholder='Capacity'
-                        onChange={handleChange}
+                        min={1}
+                        onChange={handleNumber}
+                        required
                     />
+                    <button
+                        color="warning"
+                        onClick={() => history.goBack()}>
+                        Cancel
+                    </button>
+                    <button type="submit" className="submit-button">
+                        Submit
+                    </button>
                 </form>
-                <button onClick={() => history.goBack()}>
-                    Cancel
-                </button>
-                <button onClick={submitHandler}>
-                    Submit
-                </button>
             </div>
         </main>
     )
 }
-
-export default createTable;

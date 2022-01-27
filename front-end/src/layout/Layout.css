@@ -1,4 +1,9 @@
 .side-bar {
-  background-color: #393a44;
+  background-color: black;
   min-width: 200px;
+}
+
+.col {
+  color: grey;
+  text-align: center;
 }
