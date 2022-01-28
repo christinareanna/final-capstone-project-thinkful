@@ -51,11 +51,15 @@
   "dependencies": {
     "dayjs": "^1.10.7",
     "dotenv": "^11.0.0",
+    "express": "^4.17.2",
     "heroku": "^7.59.2",
     "knex": "^1.0.1",
     "knex-migrate": "^1.7.4",
     "react-bootstrap-icons": "^1.7.2",
     "react-bootstrap-table": "^4.3.1",
     "react-dayjs": "^0.3.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13"
   }
 }

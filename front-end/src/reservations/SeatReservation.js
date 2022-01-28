@@ -18,7 +18,7 @@ function SeatReservation() {
             .catch(setError);
         return () => AC.abort();
     }
-  
+
     const handleChange = (e) => {
         setChosenTable({
             ...chosenTable,

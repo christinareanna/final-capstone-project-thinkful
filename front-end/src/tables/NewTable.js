@@ -14,6 +14,33 @@ export default function NewTable() {
     const [form, setForm] = useState({ ...initialFormState });
 
 
+
+    // function goHome() {
+    //     history.push('/')
+    // }
+
+    // function handleSubmit(event) {
+    //     event.preventDefault();
+    //     createTable({
+    //             ...tableData,
+    //             capacity: Number(tableData.capacity),
+    //         })
+    //             .then(() => {
+    //                 goHome()
+    //             })
+    //         .catch(setError);
+    //     }
+
+
+    // function handleSubmit(e) {
+    //     e.preventDefault();
+    //     const abortController = new AbortController();
+    //     createTable(form, abortController.signal)
+    //         .then(() => history.push("/"))
+    //         .catch(setError)
+    //         return () => abortController.abort()
+    // };
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         const AC = new AbortController()

@@ -21,6 +21,25 @@ export default function Search() {
         return () => AC.abort();
     };
 
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     const abortController = new AbortController();
+    //     async function searchByPhone() {
+    //         try {
+    //             const response = await readByPhoneNumber(formData.mobile_number, abortController.signal);
+    //             if (response.length === 0) {
+    //                 setResults(["No reservation found with that phone number."])
+    //             } else {
+    //                 setResults(response);
+    //             }
+    //         } catch (error) {
+    //             setError([...setError, error.message])
+    //         }
+    //     }
+    //     if (error.length === 0) {
+    //         searchByPhone();
+    //     }
+    // }
 
     return (
         <>
