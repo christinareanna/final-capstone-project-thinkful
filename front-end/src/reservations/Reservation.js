@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { updateReservation, listTables } from "../utils/api";
 // import ErrorAlert from "../layout/ErrorAlert";
@@ -7,7 +7,7 @@ import { updateReservation, listTables } from "../utils/api";
 
 
 function Reservation({ res }) {
-    // const [reservation, setReservation] = useState(res); // maybe change back to uncomment
+    const [reservation, setReservation] = useState(res);
     const [error, setError] = useState(null);
     const history = useHistory();
 
@@ -27,12 +27,10 @@ function Reservation({ res }) {
         }
     }
 
-    // useEffect(() => {
-    //     setReservation(reservation);
-    // }, [reservation, history])
-    
+    useEffect(() => {
+        setReservation(reservation);
+    }, [reservation, history])
     console.log(res)
-    // res is undefined still AGAIN
     const reservationsRows = res.map((reservation) => {
         // console.log(reservation.reservation_id)
         const {reservation_id} = reservation
