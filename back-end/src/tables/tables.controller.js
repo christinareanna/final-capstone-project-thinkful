@@ -48,6 +48,7 @@ async function tableExists(req, res, next) {
     }
 }
 
+// DATA EXISTS
 function hasData(req, res, next) {
     const data = req.body.data;
     if (data) {
@@ -59,6 +60,8 @@ function hasData(req, res, next) {
         });
     }
 }
+
+// Is the table name valid
 function hasValidTableName(req, res, next) {
     const {
         data: { table_name },
@@ -72,6 +75,8 @@ function hasValidTableName(req, res, next) {
 
     next();
 }
+
+// Is the capacity valid
 function hasValidCapacity(req, res, next) {
     const {
         data: { capacity },
@@ -86,6 +91,7 @@ function hasValidCapacity(req, res, next) {
     next();
 }
 
+// Does reservation exist
 async function reservationExists(req, res, next) {
     const { reservation_id } = req.body.data;
     if (!reservation_id) {
@@ -106,6 +112,7 @@ async function reservationExists(req, res, next) {
     }
 }
 
+// Is the table free
 function tableIsFree(req, res, next) {
     const occupied = res.locals.table.reservation_id;
     if (occupied) {
@@ -117,6 +124,7 @@ function tableIsFree(req, res, next) {
     next();
 }
 
+// Validate if the reservation is seated
 function validateSeated(req, res, next) {
     const { status } = res.locals.reservation;
     if (status === "seated") {
@@ -128,6 +136,7 @@ function validateSeated(req, res, next) {
     next();
 }
 
+// Validate if the table is seating more than the capacity
 function validateTableSeating(req, res, next) {
     const people = res.locals.reservation.people;
     const capacity = res.locals.table.capacity;
@@ -140,6 +149,7 @@ function validateTableSeating(req, res, next) {
     next();
 }
 
+// If there is no table, then it is not occupied
 function validateOccupation(req, res, next) {
     const { table } = res.locals;
     if (table.reservation_id === null) {
@@ -151,6 +161,8 @@ function validateOccupation(req, res, next) {
 
     next();
 }
+
+// VALID PROPERTIES//
 
 const VALID_PROPERTIES = ["table_name", "capacity", "reservation_id"];
 

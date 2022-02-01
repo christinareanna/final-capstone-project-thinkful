@@ -1,68 +1,70 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router";
-import { listReservations } from "../utils/api";
-import Reservation from "../reservations/Reservation"
-// import ErrorAlert from "../layout/ErrorAlert";
+import React, { useState } from 'react';
+import ErrorAlert from '../layout/ErrorAlert';
+import { listReservations } from '../utils/api';
+import ReservationsList from '../reservations/ReservationsList';
 
-export default function Search() {
-    const history = useHistory();
-    const [number, setNumber] = useState("");
+function Search() {
+    const [search, setSearch] = useState({
+        mobile_number: "",
+    });
     const [reservations, setReservations] = useState([]);
-    const handleChange = (e) => {
-        setNumber(e.target.value);
-    };
-    const handleSearch = (e) => {
-        e.preventDefault();
-        const AC = new AbortController();
-        listReservations({ mobile_number: number }, AC.signal)
-            .then(setReservations)
-            .then(() => setNumber(""))
-            .catch(console.error);
-        return () => AC.abort();
-    };
+    const [error, setError] = useState(null);
 
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     const abortController = new AbortController();
-    //     async function searchByPhone() {
-    //         try {
-    //             const response = await readByPhoneNumber(formData.mobile_number, abortController.signal);
-    //             if (response.length === 0) {
-    //                 setResults(["No reservation found with that phone number."])
-    //             } else {
-    //                 setResults(response);
-    //             }
-    //         } catch (error) {
-    //             setError([...setError, error.message])
-    //         }
-    //     }
-    //     if (error.length === 0) {
-    //         searchByPhone();
-    //     }
-    // }
+    const abortController = new AbortController();
+    // Handle submit that shows all reservations when button is clicked
+    function submitHandler(event) {
+        event.preventDefault();
+        listReservations(search, abortController.signal)
+            .then(setReservations)
+            .catch(setError);
+        return () => abortController.abort();
+    }
+
+    // Handle change that changes what is shown based on what is found when number is typed in (if number matches a reservation)
+
+    function changeHandler({ target: { name, value } }) {
+        setSearch((previousSearch) => ({
+            ...previousSearch,
+            [name]: value,
+        }));
+    }
 
     return (
-        <>
-            <div className="header">
-                <h1>Search By Phone Number</h1>
-            </div>
-            {/* <ErrorAlert error={error} /> */}
-            <form name="search" onSubmit={handleSearch}>
-                <div className="form-group">
-                    <label htmlFor="name">Name</label>
-                    <input
-                        type="text"
-                        name="mobile_number"
-                        placeholder="Enter phone number"
-                        onChange={handleChange}
-                        value={number}
-                    />
-                </div>
-                <button type="submit" className="btn btn-dark">Find</button>
-                <button type="cancel" className="btn btn-dark" onClick={() => history.goBack()}>Cancel</button>
-            </form >
-            {!reservations.length && <h3>No reservations found.</h3>}
-            <Reservation res={reservations} />
-        </>
-    )
+        <main>
+            <h1 className="mb-3">Search</h1>
+            <ErrorAlert error={error} />
+            <section>
+                <form onSubmit={submitHandler}>
+                    <div className="row mb-3">
+                        <div className="col form-group">
+                            <label className="form-label" htmlFor="mobile_number" style={{fontSize: "30px"}}>
+                                Mobile Number
+                            </label>
+                            <input
+                                style={{ width: "100%"}}
+                                className="text-center"
+                                id="mobile_number"
+                                name="mobile_number"
+                                type="text"
+                                placeholder="Enter a customer's phone number"
+                                value={search.mobile_number}
+                                onChange={changeHandler}
+                                required={true}
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" className="btn btn-info mb-3">
+                            Find
+                        </button>
+                    </div>
+                </form>
+            </section>
+            <section>
+                {/* Component that shows all reservations in search form */}
+                <ReservationsList reservations={reservations} />
+            </section>
+        </main>
+    );
 }
+export default Search;

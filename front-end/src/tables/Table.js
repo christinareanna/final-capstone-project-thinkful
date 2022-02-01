@@ -1,40 +1,32 @@
 import React from "react";
 import { clearTable } from "../utils/api";
 import { useHistory } from "react-router-dom";
-// import ErrorAlert from "../layout/ErrorAlert";
 
 function Table({ tables }) {
-  // const [currentTable, setCurrentTable] = useState(table);
   const history = useHistory();
-  // const [error, setError] = useState(null);
 
+  // Clears the table for new people, then goes back to the dashboard
 
-  // async function resetAndLoadTables() {
-  //   const abortController = new AbortController();
-  //   try {
-  //     const response = await clearTable(currentTable.table_id, abortController.signal);
-  //     const tableToSet = response.find((table) => table.table_id === currentTable.table_id);
-  //     setCurrentTable({ ...tableToSet })
-  //     listTables()
-  //     return tableToSet;
-  //   } catch (error) {
-  //     setError(error);
-  //   }
-  // }
   const handleClear = (table_id) => {
     if (
       window.confirm(
         "Is this table ready to seat new guests? This cannot be undone."
       )
     ) {
-      const AC = new AbortController();
-      clearTable(table_id, AC.signal).then(() => history.push("/")).catch((e) => console.log(e.message));
-      return () => AC.abort();
+      const abortController = new AbortController();
+      clearTable(table_id, abortController.signal)
+        .then(() =>
+          history.push("/"))
+        .catch((e) =>
+          console.log(e.message));
+      return () => abortController.abort();
     }
-
   }
 
-  const tablesRows = tables.map(({ reservation_id, table_id, capacity, table_name }) => {
+
+
+  // Map through tables and create a table of the tables! So many tables!
+  const tablesRows = (tables || []).map(({ reservation_id, table_id, capacity, table_name }) => {
     return (
       <tr key={table_id}>
         <th scope="row">{table_name}</th>
@@ -45,16 +37,16 @@ function Table({ tables }) {
     )
   })
   return (
-    <table className="table">
-      <thead className="thead-light">
+    <table className="table" style={{ width: "300px" }}>
+      <thead className="table-head" style={{ backgroundColor: "honeydew", opacity: "70%" }}>
         <tr>
           <th scope="col">Table</th>
           <th scope="col">Capacity</th>
-          <th scope="col">Vaccant ?</th>
+          <th scope="col">Vacant?</th>
           <th scope="col">Done</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody style={{ backgroundColor: "thistle", opacity: "80%", color: "black" }}>
         {tablesRows}
       </tbody>
     </table>

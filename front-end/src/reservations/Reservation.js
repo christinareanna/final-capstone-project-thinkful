@@ -1,101 +1,74 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { updateReservation, listTables } from "../utils/api";
-// import ErrorAlert from "../layout/ErrorAlert";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { updateResStatus } from '../utils/api';
 
-
-
-
-function Reservation({ res }) {
-    const [reservation, setReservation] = useState(res);
-    const [error, setError] = useState(null);
+// Reservation prop from ReservationsList component
+function Reservation({ reservation }) {
     const history = useHistory();
 
-    const handleCancelReservation = (reservation) => {
-        // event.preventDefault();
-        setError(null);
-        const AC = new AbortController();
-        if (window.confirm("Do you want to cancel this reservation? This cannot be undone.")) {
-            updateReservation({ ...reservation, status: "cancelled" },
-                true,
-                AC.signal)
-                .then(() => {
-                    listTables()
-                    history.push("/dashboard");
-                })
-                .catch(setError)
+    // Handle delete/cancel for reservation, changes status to cancelled, calls updateResState to update status
+    function handleDelete() {
+        const result = window.confirm(
+            'Do you want to cancel this reservation? This cannot be undone.'
+        );
+        if (result) {
+            const abortController = new AbortController();
+            let status = 'cancelled';
+            updateResStatus(
+                status,
+                reservation.reservation_id,
+                abortController.signal
+            ).then(() => {
+                history.push('/');
+            });
         }
     }
 
-    useEffect(() => {
-        setReservation(reservation);
-    }, [reservation, history])
-    console.log(res)
-    const reservationsRows = res.map((reservation) => {
-        // console.log(reservation.reservation_id)
-        const {reservation_id} = reservation
-        return (
-            // <key={reservation.reservation_id}>
-            // <ErrorAlert error={error} />
-            <tr key={reservation.reservation_id}>
-                <th scope="row"> {reservation.reservation_id} </th>
-                <td> {reservation.first_name} </td>
-                <td> {reservation.last_name} </td>
-                <td> {reservation.people} </td>
-                <td> {reservation.mobile_number} </td>
-                <td> {reservation.reservation_date} </td>
-                <td> {reservation.reservation_time} </td>
-                <td data-reservation-id-status={reservation.reservation_id}> {reservation.status} </td>
-                {reservation.status === "booked" ?
-                    <>
-                        <td>
-
-                            <a className="btn btn-primary"
-                                href={`/reservations/${reservation_id}/seat`}>
-                                seat
-                                {/* <button className="btn btn-primary" type="button"> Seat</button> */}
-                            </a>
-                        </td>
-                        <td>
-                            <a href={`/reservations/${reservation_id}/edit`}>
-                                <button className="btn btn-primary "> Edit </button>
-                            </a>
-                        </td>
-                        <td data-reservation-id-cancel={reservation_id}>
-                            <button className="btn btn-danger ml-2" onClick={() => handleCancelReservation(reservation)}> Cancel </button>
-                        </td>
-                    </> : <><td /><td /><td /></>
-                }
-
-            </tr>
-            // </>
-        )
-    });
+    // Shows name, number, how many people, date, time, and status of each reservation
     return (
-        <div>
-            <h4> Reservation List </h4>
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col"> ID </th>
-                        <th scope="col"> First Name </th>
-                        <th scope="col"> Last Name </th>
-                        <th scope="col"> Party Size </th>
-                        <th scope="col"> Phone Number </th>
-                        <th scope="col"> Date </th>
-                        <th scope="col"> Time </th>
-                        <th scope="col"> Status </th>
-                        <th scope="col"> Seat </th>
-                        <th scope="col"> Edit </th>
-                        <th scope="col"> Cancel </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {reservationsRows}
-                </tbody>
-            </table>
-        </div>
-    )
-}
+        <tr className="table" key={reservation.reservation_id}>
+            <td>
+                {reservation.first_name} {reservation.last_name}
+                <br />
+                {reservation.mobile_number}
+                <br />
+                Party of {reservation.people}
+            </td>
+            <td>
+                {reservation.reservation_date}
+                <br />
+                {reservation.reservation_time}
+            </td>
+            <td data-reservation-id-status={reservation.reservation_id}>
+                {reservation.status}
+            </td>
+            {/* Return seat, edit, and cancel buttons only if a reservation says 'booked' */}
+            {reservation.status === 'booked' ? (
+                <>
+                    <td className="text-center">
+                        <a href={`/reservations/${reservation.reservation_id}/seat`}>
+                            <button className="btn btn-info mr-2 mb-3">Seat</button>
+                        </a>
 
+                        <a href={`/reservations/${reservation.reservation_id}/edit`}>
+                            <button className="btn btn-primary mr-2 mb-3">Edit</button>
+                        </a>
+
+                        <button
+                            className="btn btn-danger mb-3"
+                            data-reservation-id-cancel={reservation.reservation_id}
+                            id={reservation.reservation_id}
+                            onClick={handleDelete}
+                        >
+                            Cancel
+                        </button>
+                    </td>
+                </>
+            ) : (
+                // else return null
+                <td>{null}</td>
+            )}
+        </tr>
+    );
+}
 export default Reservation;

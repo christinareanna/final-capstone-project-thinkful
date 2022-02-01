@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { listTables, updateTable } from "../utils/api"
 import ErrorAlert from '../layout/ErrorAlert'
-function SeatReservation() {
+
+export default function SeatReservation() {
     const history = useHistory()
     const { reservation_id } = useParams()
     const [tables, setTables] = useState([])
@@ -11,6 +12,8 @@ function SeatReservation() {
     // const [reservation, setReservation] = useState({})
     useEffect(loadTables, [])
     // useEffect(loadReservationData,[reservation_id])
+
+    // Calls listTables to show all of the tables
     function loadTables() {
         const AC = new AbortController();
         listTables(AC.signal)
@@ -19,24 +22,27 @@ function SeatReservation() {
         return () => AC.abort();
     }
 
+    // Handle change to update the state of the table
+
     const handleChange = (e) => {
         setChosenTable({
             ...chosenTable,
             [e.target.id]: e.target.value,
         });
-        // console.log(reservation_id)
+
+        // Handle submit to update the table with the reservation and go back to the dashboard page
     };
     const handleSubmission = async (e) => {
         e.preventDefault()
         setError(null)
-        const AC = new AbortController()
-        console.log({ ...chosenTable })
-        // console.log({reservation_id})
-        updateTable({ reservation_id }, chosenTable.table_id, AC.signal)
+        const abortController = new AbortController()
+        updateTable({ reservation_id }, chosenTable.table_id, abortController.signal)
             .then(() => history.push("/"))
             .catch(setError)
-        return () => AC.abort();
+        return () => abortController.abort();
     }
+
+    // Map through all tables and show the table name and the capacity of each table in each option in the drop down menu when choosing a table to sit at
 
     const tableOptions = tables.map((table) => {
         return (<option key={table.table_id} value={table.table_id} >
@@ -50,7 +56,8 @@ function SeatReservation() {
             <div className="form-group">
                 <label htmlFor="table_id">Choose a Table</label>
                 <select className="form-control" id="table_id" name="table_id" onChange={handleChange}>
-                    <option value="">** No Selection **</option>
+                    {/* Show 'No Selection' if you haven't chosen a table yet */} 
+                    <option value="">No Selection</option>
                     {tables.length && tableOptions}
                 </select>
             </div>
@@ -58,9 +65,8 @@ function SeatReservation() {
                 e.preventDefault()
                 history.goBack()
             }}>Cancel</button>
+            {/* if there is no table, disable the submit button */}
             <button type="submit" disabled={!chosenTable.table_id}>Submit</button>
         </form>
     )
 }
-
-export default SeatReservation

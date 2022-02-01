@@ -21,10 +21,8 @@ export default function NewReservation() {
 
     const [form, setform] = useState({...initialFormState});
 
-
-
-
-    const handleSubmit = async (e) => {
+    // Handle submit form, calls createReservation and updates page with reservation date of the new reservation
+    const handleSubmission = async (e) => {
         e.preventDefault()
         const AC = new AbortController()
         createReservation(form, AC.signal)
@@ -33,13 +31,16 @@ export default function NewReservation() {
         // return () => AC.abort();
     }
 
+    // handle change (with and without numbers). Updates the state of the form and values. 
+    //Originally had combined into one handlechange but wanted to have it be read more easily.
+
     const handleChange = (e) => {
         setform({
             ...form,
             [e.target.id]: e.target.value,
         });
-        // console.log("FORM", form)
     };
+
     const handleNumberChange = (e) => {
         setform({
             ...form,
@@ -47,9 +48,10 @@ export default function NewReservation() {
         });
     };
 
+    // Returns the reservation form with all of the props from this component.
     return (
         <div>
-            <ReservationForm handleSubmit={handleSubmit} handleChange={handleChange} error={error} handleNumberChange={handleNumberChange} form={form} />
+            <ReservationForm handleSubmission={handleSubmission} handleChange={handleChange} error={error} handleNumberChange={handleNumberChange} form={form} />
         </div>
     )
 }

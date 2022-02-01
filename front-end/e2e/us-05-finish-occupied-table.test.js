@@ -9,8 +9,8 @@ const { createReservation, createTable } = require("./api");
 const baseURL = process.env.BASE_URL || "http://localhost:3000";
 
 const onPageConsole = (msg) =>
-  Promise.all(msg.args().map((event) => event.jsonValue())).then((eventJson) =>
-    console.log(`<LOG::page console ${msg.type()}>`, ...eventJson)
+  Promise.all(msg.args().map((event) => event.jsonValue())).then((eventJson) => {}
+    // console.log(`<LOG::page console ${msg.type()}>`, ...eventJson)
   );
 
 describe("US-05 - Finish an occupied table - E2E", () => {

@@ -15,6 +15,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Added tables and reservations with their routers
 app.use("/tables", tablesRouter);
 app.use("/reservations", reservationsRouter);
 

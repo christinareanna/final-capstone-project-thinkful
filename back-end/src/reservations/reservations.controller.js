@@ -1,7 +1,6 @@
 const reservationsService = require("./reservations.service");
 const hasProperties = require("../errors/hasProperties");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-// const { first } = require("../db/connection");
 
 // LIST
 async function list(req, res) {
@@ -33,12 +32,6 @@ async function updateStatus(req, res) {
   res.json({ data });
 }
 
-// POST
-async function create(req, res) {
-  const data = await reservationsService.create(req.body.data);
-  res.status(201).json({ data });
-}
-
 // UPDATE
 async function update(req, res) {
   const { reservation_id } = res.locals.reservation;
@@ -51,6 +44,12 @@ async function update(req, res) {
   res.json({ data });
 }
 
+// POST
+async function create(req, res) {
+  const data = await reservationsService.create(req.body.data);
+  res.status(201).json({ data });
+}
+
 // DELETE
 async function destroy(req, res) {
   const { reservation } = res.locals;
@@ -58,9 +57,9 @@ async function destroy(req, res) {
   res.sendStatus(204);
 }
 
-// ---------- //
+
+
 // VALIDATION //
-// ---------- //
 
 
 
@@ -79,20 +78,22 @@ async function reservationExists(req, res, next) {
   }
 }
 
-function hasValidName(req, res, next) {
-  const {
-    data: { first_name, last_name },
-  } = req.body;
+// remove because tests use numbers as names
 
-  if (/^[0-9]+$/.test(first_name) || /^[0-9]+$/.test(last_name)) {
-    return next({
-      status: 400,
-      message: "Name must include only letters A-Z.",
-    });
-  }
+// function hasValidName(req, res, next) {
+//   // const {
+//   //   data: { first_name, last_name },
+//   // } = req.body;
 
-  return next();
-}
+//   // if (/^[0-9]+$/.test(first_name) || /^[0-9]+$/.test(last_name)) {
+//   //   return next({
+//   //     status: 400,
+//   //     message: "Name must include only letters A-Z.",
+//   //   });
+//   // }
+
+//   return next();
+// }
 
 function hasValidDate(req, res, next) {
   const {
@@ -100,7 +101,7 @@ function hasValidDate(req, res, next) {
   } = req.body;
   const invalidDate = 2;
   const submitDate = new Date(reservation_date + " " + reservation_time);
-  const dayAsNum = submitDate.getUTCDay();
+  const dayAsNumber = submitDate.getUTCDay();
   const today = new Date();
 
   const dateFormat = /\d\d\d\d-\d\d-\d\d/;
@@ -116,7 +117,7 @@ function hasValidDate(req, res, next) {
       message: `the reservation_date must be a valid date in the format 'YYYY-MM-DD'`,
     });
   }
-  if (dayAsNum === invalidDate) {
+  if (dayAsNumber === invalidDate) {
     return next({
       status: 400,
       message: `The restaurant is closed on Tuesdays. Please select a different day.`,
@@ -140,6 +141,7 @@ function hasValidTime(req, res, next) {
   const {
     data: { reservation_time },
   } = req.body;
+  // Regex for a valid time format!
   const validTimeFormat = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/;
 
   if (!reservation_time) {
@@ -249,6 +251,7 @@ function hasData(req, res, next) {
     });
   }
 }
+
 const VALID_PROPERTIES = [
   "first_name",
   "last_name",
@@ -266,7 +269,7 @@ function hasOnlyValidProperties(req, res, next) {
     (field) => !VALID_PROPERTIES.includes(field)
   );
 
-  // if there are any invalid fields
+  // check if there are any invalid fields
   if (invalidFields.length) {
     return next({
       status: 400,
@@ -286,7 +289,7 @@ module.exports = {
     hasOnlyValidProperties,
     hasRequiredProperties,
     checkBooked,
-    hasValidName,
+    // hasValidName,
     hasValidTime,
     hasValidDate,
     hasValidPhoneNumber,
@@ -297,7 +300,7 @@ module.exports = {
     asyncErrorBoundary(reservationExists),
     hasRequiredProperties,
     checkBooked,
-    hasValidName,
+    // hasValidName,
     hasValidTime,
     hasValidDate,
     hasValidPhoneNumber,
