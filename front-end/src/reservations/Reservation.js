@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { updateResStatus } from '../utils/api';
-import "./Reservation.css"
+// import "./Reservation.css"
 
 // Reservation prop from ReservationsList component
 function Reservation({ reservation }) {
