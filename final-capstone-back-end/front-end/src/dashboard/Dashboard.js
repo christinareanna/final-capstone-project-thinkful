@@ -57,8 +57,8 @@ function Dashboard({ date }) {
   return (
     <main style={{margin: "20px"}}>
       <div style={{alignItems: "center"}}>
-      <h1 style={{ color: "white", opacity: "80%", borderRadius: "15px", fontSize: "60px"}}>Dashboard</h1>
-      <h2 style={{color: "white", opacity: "50%"}}>Reservations for {date}</h2>
+      <h1 style={{ color: "white", borderRadius: "15px", fontSize: "60px"}}>Dashboard</h1>
+      <h2 style={{color: "white"}}>Reservations for {date}</h2>
       </div>
       <div className="btns" style={{margin:"10px"}}>
         <button

@@ -16,7 +16,7 @@ function ReservationList({ reservations }) {
     // If there are reservations, return table of reservations, else, return 'No reservations found.' message.
     if (reservations.length) {
         return (
-            <div className="container-fluid" style={{ width: "450px", float: "right"}}>
+            <div className="container-fluid">
                 <table className="table" style={{ textAlign: "center" }}>
                     <thead className="table-head" style={{ backgroundColor: "honeydew", opacity: "70%" }}>
                         <tr>

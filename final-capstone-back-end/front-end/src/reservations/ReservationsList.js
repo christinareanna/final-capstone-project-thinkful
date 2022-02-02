@@ -1,5 +1,6 @@
 import React from 'react';
 import Reservation from './Reservation';
+import "./ReservationsList.css"
 
 // Reservations from dashboard component
 function ReservationList({ reservations }) {
@@ -16,8 +17,8 @@ function ReservationList({ reservations }) {
     // If there are reservations, return table of reservations, else, return 'No reservations found.' message.
     if (reservations.length) {
         return (
-            <div className="container-fluid" style={{ width: "450px", float: "right"}}>
-                <table className="table" style={{ textAlign: "center" }}>
+            <div className="container-fluid">
+                <table className="table">
                     <thead className="table-head" style={{ backgroundColor: "honeydew", opacity: "70%" }}>
                         <tr>
                             <th scope="col">Guest</th>
@@ -30,7 +31,7 @@ function ReservationList({ reservations }) {
                             </th>
                         </tr>
                     </thead>
-                    <tbody style={{ backgroundColor: "thistle", opacity: "80%", color: "black" }}>{tableRows}</tbody>
+                    <tbody className="table-body" style={{ backgroundColor: "thistle", opacity: "80%", color: "black" }}>{tableRows}</tbody>
                 </table>
             </div>
         );

@@ -1,5 +1,8 @@
+.container-fluid {
+  
+}
+
 .side-bar {
-  opacity: 60%;
   background: url("../images/pexels-sharon-mccutcheon-3713892.jpg") ;
   min-width: 300px;
   height: 50%;
