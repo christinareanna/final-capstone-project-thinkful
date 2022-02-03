@@ -37,19 +37,26 @@ function Table({ tables }) {
     )
   })
   return (
-    <table className="table" style={{ width: "300px" }}>
-      <thead className="table-head" style={{ backgroundColor: "honeydew", opacity: "70%" }}>
-        <tr>
-          <th scope="col">Table</th>
-          <th scope="col">Capacity</th>
-          <th scope="col">Vacant?</th>
-          <th scope="col">Done</th>
-        </tr>
-      </thead>
-      <tbody style={{ backgroundColor: "thistle", opacity: "80%", color: "black" }}>
-        {tablesRows}
-      </tbody>
-    </table>
+    <div className="container">
+      <div className='row' style={{ justifyContent: "center" }}>
+        <h1>Table List</h1>
+        <div className="col col-2">
+          <table className="table" style={{ display: "inline-grid", justifyContent: "center", alignContent: "center", textAlign: "center" }}>
+            <thead className="table-head" style={{ backgroundColor: "honeydew", opacity: "70%" }}>
+              <tr>
+                <th scope="col">Table</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">Vacant?</th>
+                <th scope="col">Done</th>
+              </tr>
+            </thead>
+            <tbody style={{ backgroundColor: "thistle", opacity: "80%", color: "black", justifyContent: "center", alignContent: "center", textAlign: "center" }}>
+              {tablesRows}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   )
 }
 

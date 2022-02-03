@@ -55,9 +55,9 @@ function Dashboard({ date }) {
   }
 
   return (
-    <main style={{margin: "20px"}}>
+    <main style={{display: "inline-block", flexWrap: "wrap", alignItems: "center", justifyContent: "center"}}>
       <div style={{alignItems: "center"}}>
-      <h1 style={{ color: "white", borderRadius: "15px", fontSize: "60px"}}>Dashboard</h1>
+      <h1 style={{ color: "black", borderRadius: "15px", fontSize: "60px"}}>Dashboard</h1>
       <h2 style={{color: "white"}}>Reservations for {date}</h2>
       </div>
       <div className="btns" style={{margin:"10px"}}>

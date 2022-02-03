@@ -37,7 +37,7 @@ function Table({ tables }) {
     )
   })
   return (
-    <table className="table" style={{ width: "300px" }}>
+    <table className="table">
       <thead className="table-head" style={{ backgroundColor: "honeydew", opacity: "70%" }}>
         <tr>
           <th scope="col">Table</th>

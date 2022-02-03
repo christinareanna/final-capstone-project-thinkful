@@ -29,7 +29,7 @@ function Table({ tables }) {
   const tablesRows = (tables || []).map(({ reservation_id, table_id, capacity, table_name }) => {
     return (
       <tr key={table_id}>
-        <th scope="row">{table_name}</th>
+        <th>{table_name}</th>
         <td>{capacity}</td>
         <td data-table-id-status={table_id}>{reservation_id ? "Occupied" : "Free"}</td>
         <td>{reservation_id && <button onClick={() => handleClear(table_id)} type="button" className="btn btn-dark" data-table-id-finish={table_id}>Finish</button>}</td>
@@ -37,19 +37,26 @@ function Table({ tables }) {
     )
   })
   return (
-    <table className="table" style={{ width: "300px" }}>
-      <thead className="table-head" style={{ backgroundColor: "honeydew", opacity: "70%" }}>
-        <tr>
-          <th scope="col">Table</th>
-          <th scope="col">Capacity</th>
-          <th scope="col">Vacant?</th>
-          <th scope="col">Done</th>
-        </tr>
-      </thead>
-      <tbody style={{ backgroundColor: "thistle", opacity: "80%", color: "black" }}>
-        {tablesRows}
-      </tbody>
-    </table>
+    <div className="container-fluid">
+      <h1 style={{ textAlign: "center" }}>Table List</h1>
+      <div className="row no-gutters">
+        <div className="col">
+          <table className="table" style={{ padding: "0", alignItems: "center", justifyContent: "center" }}>
+            <thead className="table-head" style={{ backgroundColor: "honeydew", opacity: "70%", padding: "0" }}>
+              <tr>
+                <th scope="col" style={{ padding: "0" }}>Table</th>
+                <th scope="col" style={{ padding: "0" }}>Capacity</th>
+                <th scope="col" style={{ padding: "0" }}>Vacant?</th>
+                <th scope="col" style={{ padding: "0" }}>Done</th>
+              </tr>
+            </thead>
+            <tbody style={{ backgroundColor: "thistle", opacity: "80%", color: "black" }}>
+              {tablesRows}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   )
 }
 

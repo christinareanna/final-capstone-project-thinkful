@@ -82,7 +82,8 @@ function EditReservation() {
                 <form className="mb-4" onSubmit={handleSubmit}>
                     <div className="row mb-3">
                         <div className="col-6 form-group">
-                            <label className="form-label" htmlFor="first_name">
+                            <label className="form-label"
+                            htmlFor="first_name">
                                 First Name
                             </label>
                             <input
