@@ -1,5 +1,7 @@
 <h1>Final Capstone Project Thinkful</h1>
 <h3>Deployed version here: https://final-capstone-front-end.herokuapp.com/dashboard</h3>
+
+<h3> FYI : Back-end and front-end were local, final-capstone-back-end and final-capstone-front-end are deployed</h3>
 <h3>Installation</h3>
 
 Run npm install to install project dependencies.
