@@ -89,7 +89,6 @@ Deployed with Heroku
 <h2>Screenshots</h2>
 
 ![Dashboard](https://user-images.githubusercontent.com/84490798/152303855-aa6598c9-7239-4b2b-ba69-126c3b487556.png)
-<img width="1434" alt="Reservations Dashboard" src="https://user-images.githubusercontent.com/84490798/152303869-22f85354-5d26-41d7-8c7b-cb11d38e5025.png">
 <img width="1440" alt="Search" src="https://user-images.githubusercontent.com/84490798/152303882-13e28916-959f-4887-8441-5429fe15b973.png">
 <img width="1431" alt="New Reservation" src="https://user-images.githubusercontent.com/84490798/152303887-8d8ef998-6de2-449d-b34c-f78c006d8100.png">
 <img width="1433" alt="New Table" src="https://user-images.githubusercontent.com/84490798/152303894-86ff9b91-a9de-441f-b5de-c5d068246fe2.png">
