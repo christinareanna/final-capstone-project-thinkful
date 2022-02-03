@@ -1,4 +1,5 @@
-<h1>Capstone: Restaurant Reservation System</h1>
+<h1>Final Capstone Project Thinkful</h1>
+<h3>Deployed version here: https://final-capstone-front-end.herokuapp.com/dashboard</h3>
 <h3>Installation</h3>
 
 Run npm install to install project dependencies.
@@ -83,8 +84,6 @@ Node.js
 PostgreSQL
 
 DBeaver
-
-Deployed with Heroku
 
 <h2>Screenshots</h2>
 
