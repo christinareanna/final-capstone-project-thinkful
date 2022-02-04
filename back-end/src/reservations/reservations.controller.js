@@ -106,12 +106,6 @@ function hasValidInfo(req, res, next) {
       message: "Reservation must be booked for future date.",
     });
   }
-  // if (!validNumber || people <= 0) {
-  //   return next({
-  //     status: 400,
-  //     message: "You cannot make a reservation for 0 people.",
-  //   });
-  // }
   next();
 }
 
