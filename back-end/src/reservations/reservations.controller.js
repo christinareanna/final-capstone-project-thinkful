@@ -84,7 +84,6 @@ function hasValidInfo(req, res, next) {
   let today = new Date();
   let day = `${reservation_date}  ${reservation_time}`;
   let resAsDate = new Date(day);
-  // const validNumber = Number.isInteger(people);
 
   const dateReg = /^\d{4}\-\d{1,2}\-\d{1,2}$/;
 
