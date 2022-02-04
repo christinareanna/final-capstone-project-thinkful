@@ -1,5 +1,7 @@
 # Capstone: Restaurant Reservation System
 
+## Deployed Link: https://final-capstone-front-end.herokuapp.com/dashboard
+
 ## Installation
 
 1. Run npm install to install project dependencies.
