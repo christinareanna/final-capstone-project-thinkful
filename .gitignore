@@ -1,3 +1,7 @@
 node_modules
 push-frontend.sh
+<<<<<<< HEAD
 push-backend-sh
+=======
+push-backend.sh
+>>>>>>> 6dfb8c14e36bb6b9e2679ab3f4f6b4f86989ef35

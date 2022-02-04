@@ -120,7 +120,7 @@ function hasValidTime(req, res, next) {
   const {
     data: { reservation_time },
   } = req.body;
-  // Regex for a valid time format!
+  // Regex for a valid time format
   const validTimeFormat = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/;
 
   if (!reservation_time) {
