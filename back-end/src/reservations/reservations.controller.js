@@ -78,64 +78,43 @@ async function reservationExists(req, res, next) {
   }
 }
 
-// remove because tests use numbers as names
+// Valid date
+function hasValidInfo(req, res, next) {
+  const { reservation_date, reservation_time, people } = req.body.data;
+  let today = new Date();
+  let day = `${reservation_date}  ${reservation_time}`;
+  let resAsDate = new Date(day);
+  // const validNumber = Number.isInteger(people);
 
-// function hasValidName(req, res, next) {
-//   // const {
-//   //   data: { first_name, last_name },
-//   // } = req.body;
+  const dateReg = /^\d{4}\-\d{1,2}\-\d{1,2}$/;
 
-//   // if (/^[0-9]+$/.test(first_name) || /^[0-9]+$/.test(last_name)) {
-//   //   return next({
-//   //     status: 400,
-//   //     message: "Name must include only letters A-Z.",
-//   //   });
-//   // }
-
-//   return next();
-// }
-
-function hasValidDate(req, res, next) {
-  const {
-    data: { reservation_date, reservation_time },
-  } = req.body;
-  const invalidDate = 2;
-  const submitDate = new Date(reservation_date + " " + reservation_time);
-  const dayAsNumber = submitDate.getUTCDay();
-  const today = new Date();
-
-  const dateFormat = /\d\d\d\d-\d\d-\d\d/;
-  if (!reservation_date) {
+  if (!reservation_date.match(dateReg)) {
     return next({
       status: 400,
-      message: `reservation_date cannot be empty. Please select a date.`,
+      message: `Your reservation_date is not a valid date.`,
     });
   }
-  if (!reservation_date.match(dateFormat)) {
+  if (resAsDate.getDay() === 2) {
     return next({
       status: 400,
-      message: `the reservation_date must be a valid date in the format 'YYYY-MM-DD'`,
+      message: `Sorry, we're closed on Tuesdays.`,
     });
   }
-  if (dayAsNumber === invalidDate) {
+  if (resAsDate < today) {
     return next({
       status: 400,
-      message: `The restaurant is closed on Tuesdays. Please select a different day.`,
+      message: "Reservation must be booked for future date.",
     });
   }
-
-  // if editing, don't do final check for past date
-  if (res.locals.reservation) {
-    return next();
-  }
-  if (submitDate < today) {
-    next({
-      status: 400,
-      message: `The date and time cannot be in the past. Please select a date in the future. Today is ${today}.`
-    })
-  }
+  // if (!validNumber || people <= 0) {
+  //   return next({
+  //     status: 400,
+  //     message: "You cannot make a reservation for 0 people.",
+  //   });
+  // }
   next();
 }
+
 
 function hasValidTime(req, res, next) {
   const {
@@ -289,9 +268,8 @@ module.exports = {
     hasOnlyValidProperties,
     hasRequiredProperties,
     checkBooked,
-    // hasValidName,
     hasValidTime,
-    hasValidDate,
+    hasValidInfo,
     hasValidPhoneNumber,
     hasValidPeople,
     asyncErrorBoundary(create),
@@ -300,9 +278,8 @@ module.exports = {
     asyncErrorBoundary(reservationExists),
     hasRequiredProperties,
     checkBooked,
-    // hasValidName,
     hasValidTime,
-    hasValidDate,
+    hasValidInfo,
     hasValidPhoneNumber,
     hasValidPeople,
     asyncErrorBoundary(update),
