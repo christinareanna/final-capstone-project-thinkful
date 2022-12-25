@@ -1,0 +1,41 @@
+.container-fluid {
+  /* background: url("../images/pexels-sharon-mccutcheon-3713892.jpg"); */
+  /* min-width: 300px; */
+  text-align: center;
+  /* padding: 5%; */
+  width: auto;
+  height: 100%;
+  border-bottom-right-radius: 30px;
+  /* font-size: 20px; */
+}
+
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  font-family: 'Just Another Hand', cursive;
+  overflow: auto;
+  height: 100%;
+  background-image: linear-gradient(90deg,
+  rgb(113, 113, 192) 0%,
+  rgb(170, 71, 192) 21%,
+  rgb(190, 77, 162) 30%,
+  rgb(211, 95, 155) 39%,
+  rgb(209, 102, 143) 46%,
+  rgb(233, 108, 114) 54%,
+  rgb(236, 135, 95) 61%,
+  rgb(228, 169, 91) 69%,
+  rgb(228, 197, 105) 79%,
+  rgb(206, 197, 106) 100%);
+}
+
+
+/* .nav {
+  display: inline;
+  width: auto;
+  color: black;
+  /* justify-content: center; */
+  /* display: inherit;
+} */ 
